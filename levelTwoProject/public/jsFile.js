@@ -4,9 +4,9 @@ $(function() {
     function appendToList(cities) {
         var list =[];
         for(var i in cities) {
-            list.push($('<form>', {text: cities[i] }));
+            list.push($('<option>', {text: cities[i] }));
         }
-        $('display').append(list);
+        $('#optionTags').append(list);
     }
 
 });
