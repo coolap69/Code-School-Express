@@ -28,8 +28,8 @@ app.get("/currentdate", function(request, response) {
  response.send(new Date())
 })
 
-//listen for incoming signals on this port.
-app.listen(process.env.PORT);
+// //listen for incoming signals on this port.
+// app.listen(process.env.PORT);
 
 
 
@@ -37,9 +37,16 @@ app.use(express.static('public'))
 
 app.get('/cities', function(request, response) {
 
-            var cities = ['Providence', 'Boston', 'Houston', 'Phoenix'];
+            var cities = ['Providence', 'Boston', 'Houston', 'Phoenix', 'New York City'];
+            if (request.query.limit >= 0) {
+             response.json(cities.slice(0, request.query.limit));
+            } else {
             response.json(cities);
+            };
     });
+
+
+
 
 
             //listen for incoming signals on this port.
