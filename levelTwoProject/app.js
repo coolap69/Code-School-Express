@@ -32,22 +32,39 @@ app.get("/currentdate", function(request, response) {
 // app.listen(process.env.PORT);
 
 
+//Static routes
+// app.use(express.static('public'))
+// app.get('/cities', function(request, response) {
 
-app.use(express.static('public'))
-
-app.get('/cities', function(request, response) {
-
-            var cities = ['Providence', 'Boston', 'Houston', 'Phoenix', 'New York City'];
-            if (request.query.limit >= 0) {
-             response.json(cities.slice(0, request.query.limit));
-            } else {
-            response.json(cities);
-            };
-    });
-
+// var cities = ['Providence', 'Boston', 'Houston', 'Phoenix', 'New York City'];
+// if (request.query.limit >= 0) {
+//             response.json(cities.slice(0, request.query.limit));
+//            } else {
+//            response.json(cities);
+//            };
+//    });
 
 
+//Dynamic routes        
+var cities = {
+ 'Providence': 'Rhode Island',
+ 'Boston': 'Massachusetts',
+ 'Houston': 'Texas',
+ 'Phoenix': 'Arizona',
+ 'New York City': 'New York'
+};
 
 
-            //listen for incoming signals on this port.
-            app.listen(process.env.PORT);
+app.get('/cities/:name', function(request, response) {
+ var description = cities[request.params.name];
+ if(!description) {
+  response.status(404).json('Not description found for ' + request.params.name);
+ } else {
+ response.json(description);
+ }
+});
+
+
+
+//listen for incoming signals on this port.
+app.listen(process.env.PORT);
