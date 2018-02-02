@@ -28,19 +28,65 @@ app.get("/currentdate", function(request, response) {
  response.send(new Date())
 })
 
+// //listen for incoming signals on this port.
+// app.listen(process.env.PORT);
+
+
+// Static routes
+// app.use(express.static('public'))
+// app.get('/cities', function(request, response) {
+
+//  var cities = ['Providence', 'Boston', 'Houston', 'Phoenix', 'New York City'];
+//  if (request.query.limit >= 0) {
+//   response.json(cities.slice(0, request.query.limit));
+//  }
+//  else {
+//   response.json(Object.keys(cities));
+//  };
+// });
+
+
+//Dynamic routes  //fetch additional information      
+var cities = {
+ 'Providence': 'Rhode Island',
+ 'Boston': 'Massachusetts',
+ 'Houston': 'Texas',
+ 'Phoenix': 'Arizona',
+ 'New York City': 'New York'
+};
+
+app.param('name', function(request, respond, next) {
+ var name = request.params.name;
+ //lower case
+ var city = name[0].toUpperCase() + name.slice(1).toLowerCase();
+ request.cityName = city;
+ next();
+});
+
+// app.use(express.static('public'))
+app.get('/cities', function(request, response) {
+if (request.query.limit >= 0) {
+ response.json(cities.slice(0, request.query.limit));
+}
+else {
+ response.json(Object.keys(cities));
+};
+});
+
+app.get('/cities/:name', function(request, response) {
+ var description = cities[request.cityName]
+
+ if (!description) {
+  response.status(404).json('Not description found for ' + request.params.name);
+ }
+ else {
+  response.json(description);
+ }
+});
+
+
+
+
+
 //listen for incoming signals on this port.
 app.listen(process.env.PORT);
-
-
-
-app.use(express.static('public'))
-
-app.get('/cities', function(request, response) {
-
-            var cities = ['Providence', 'Boston', 'Houston', 'Phoenix'];
-            response.json(cities);
-    });
-
-
-            //listen for incoming signals on this port.
-            app.listen(process.env.PORT);
