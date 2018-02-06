@@ -1,3 +1,4 @@
+/*global $*/
 $(function() {
     $.get('/cities', appendToList);
     
@@ -8,5 +9,23 @@ $(function() {
         }
         $('#optionTags').append(list);
     }
+});
 
+
+
+$('#addNewCity').on('submit', function(event) {
+    event.preventDefault();
+    var form = $(this)
+    var cityinfo =form.serialize();
+    
+    $.ajax ({
+        Type: 'POST',
+        url: '/cities', 
+        data: cityinfo
+    }).done(function(addedCity) {
+        appendToList([addedCity]);
+        form.trigger('reset');
+    }).fail(function(addedCity) {
+        console.log('failed')
+    });
 });

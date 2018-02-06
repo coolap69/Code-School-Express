@@ -3,30 +3,35 @@
 var express = require('express')
 var app = express();
 
+var bodyParser = require('body-parser');
+var parseUrlencoded = bodyParser.urlencoded ({ extended: false});
+
+app.use(express.static('public'));
+
 //refers to the http method get.
 //This is a get request
 //use call back function to load the page
 
-app.get("/", function(request, response) {
- //you get the request first, then response
- response.send("Hello World");
-});
+// app.get("/", function(request, response) {
+//  //you get the request first, then response
+//  response.send("Hello World");
+// });
 
-app.get("/name", function(request, response) {
- response.send("Louis the Man")
-});
+// app.get("/name", function(request, response) {
+//  response.send("Louis the Man")
+// });
 
-app.get("/redirect", function(request, response) {
- response.redirect(301, '/surprise');
-});
+// app.get("/redirect", function(request, response) {
+//  response.redirect(301, '/surprise');
+// });
 
-app.get("/surprise", function(request, response) {
- response.send("Awesome")
-});
+// app.get("/surprise", function(request, response) {
+//  response.send("Awesome")
+// });
 
-app.get("/currentdate", function(request, response) {
- response.send(new Date())
-})
+// app.get("/currentdate", function(request, response) {
+//  response.send(new Date())
+// });
 
 // //listen for incoming signals on this port.
 // app.listen(process.env.PORT);
@@ -54,6 +59,7 @@ var cities = {
  'Phoenix': 'Arizona',
  'New York City': 'New York'
 };
+
 
 app.param('name', function(request, respond, next) {
  var name = request.params.name;
@@ -83,6 +89,8 @@ app.get('/cities/:name', function(request, response) {
   response.json(description);
  }
 });
+
+add.post('/cities', parseUrlencoded, function)
 
 
 
