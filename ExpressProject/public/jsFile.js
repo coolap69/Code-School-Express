@@ -1,31 +1,57 @@
-/*global $*/
+ /* global $ */
 $(function() {
     $.get('/cities', appendToList);
-    
-    function appendToList(cities) {
+
+ function appendToList(cities) {
+     console.log('start append')
         var list =[];
+        var content, city;
         for(var i in cities) {
-            list.push($('<option>', {text: cities[i] }));
+            city = cities[i];
+            content = '<a href= "/cities/'+city+'">'+city+'</a>';
+            list.push($('<li>', {html: content }));
         }
-        $('#optionTags').append(list);
+        console.log("append section");
+        $('#cityList').append(list);
     }
-});
-
-
-
-$('#addNewCity').on('submit', function(event) {
+    
+// debugger
+$('form').on("submit", function(event) {
     event.preventDefault();
-    var form = $(this)
-    var cityinfo =form.serialize();
+    var form = $(this);
+    // console.log(form);
+    var cityInfo = form.serialize();
+    console.log(cityInfo);
     
     $.ajax ({
-        Type: 'POST',
+        type: 'POST',
         url: '/cities', 
-        data: cityinfo
-    }).done(function(addedCity) {
-        appendToList([addedCity]);
+        data: cityInfo
+        
+    }).done(function(cityName) {
+        
+        console.log("inside ajax", cityName);
+        appendToList([cityName]);
         form.trigger('reset');
-    }).fail(function(addedCity) {
-        console.log('failed')
+        
     });
+    // .fail(function(addedCity) {
+    //     console.log('failed');
+    
+    // });
+});
+
+//   function appendToList(cities) {
+//         var list =[];
+//         var content, city;
+//         for(var i in cities) {
+//             city = cities[i];
+//             content = '<a href= "/cities/'+city+'">'+city+'</a>';
+//             list.push($('<option>', {html: content }));
+//         }
+//         $('#optionTags').append(list);
+//     };
+
+
+
 });

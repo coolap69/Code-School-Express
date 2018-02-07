@@ -80,20 +80,35 @@ else {
 });
 
 app.get('/cities/:name', function(request, response) {
- var description = cities[request.cityName]
+ var state = cities[request.cityName]
 
- if (!description) {
+ if (!state) {
   response.status(404).json('Not description found for ' + request.params.name);
  }
  else {
-  response.json(description);
+  response.json(state);
  }
 });
 
-add.post('/cities', parseUrlencoded, function)
+app.post('/cities', parseUrlencoded, function(request, response) {
+ // if(request.body.city.length >= 4 && request.body.state.length > 2) {
+  // var newCity = request.body;
+  console.log(request.body.city, request.body.state);
+  var newCity = createCity(request.body.city, request.body.state)
+  console.log("newcity object")
+  console.log(newCity);
+  // cities[newCity.city]= newCity.state;
+  
+  response.status(201).json(newCity);
+ // } else {
+ //  response.status(404).json("Enter a valid City and State");
+ 
+});
 
-
-
+var createCity = function(name, state){
+ cities[name] = state;
+ return name;
+}
 
 
 //listen for incoming signals on this port.
