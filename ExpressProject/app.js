@@ -108,7 +108,12 @@ app.post('/cities', parseUrlencoded, function(request, response) {
 var createCity = function(name, state){
  cities[name] = state;
  return name;
-}
+};
+
+app.delete('/cities/:name', function(request, response) {
+ delete cities[request.cityName];
+ response.sendStatus(200);
+});
 
 
 //listen for incoming signals on this port.
