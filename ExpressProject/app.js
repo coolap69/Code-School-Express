@@ -57,7 +57,7 @@ var cities = {
  'Boston': 'Massachusetts',
  'Houston': 'Texas',
  'Phoenix': 'Arizona',
- 'New York City': 'New York'
+ 'Foxboro': 'Massachusetts'
 };
 
 
@@ -91,18 +91,20 @@ app.get('/cities/:name', function(request, response) {
 });
 
 app.post('/cities', parseUrlencoded, function(request, response) {
- // if(request.body.city.length >= 4 && request.body.state.length > 2) {
+ if(request.body.city.length >= 4 && request.body.state.length > 2) {
   // var newCity = request.body;
   console.log(request.body.city, request.body.state);
-  var newCity = createCity(request.body.city, request.body.state)
-  console.log("newcity object")
-  console.log(newCity);
+  var newCity = createCity(request.body.city, request.body.state);
+  // console.log("newcity object")
+  // console.log(newCity);
   // cities[newCity.city]= newCity.state;
   
   response.status(201).json(newCity);
- // } else {
- //  response.status(404).json("Enter a valid City and State");
- 
+ } else {
+    console.log("Enter a valid City and State")
+response.status(404).json("Enter a valid City and State");
+
+ }
 });
 
 var createCity = function(name, state){
